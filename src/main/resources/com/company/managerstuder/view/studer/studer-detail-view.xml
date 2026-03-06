@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://studerDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="studerDc"
+                  class="com.company.managerstuder.entity.Studer">
+            <fetchPlan extends="_base">
+                <property name="enrollments" fetchPlan="_base">
+                    <property name="courses" fetchPlan="_base">
+                        <property name="name"/>
+                        <property name="code"/>
+                    </property>
+                </property>
+                <property name="age"/>
+            </fetchPlan>
+            <loader id="studerDl"/>
+            <collection id="enrollmentsDc" property="enrollments"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="studerDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="codeField" property="code"/>
+            <textField id="nameField" property="name"/>
+            <datePicker id="dobField" property="dob"/>
+<!--            <integerField id="ageField" property="age" readOnly="true"/>-->
+            <textField id="ageField" property="age" readOnly="true" />
+            <textField id="cccdField" property="cccd"/>
+            <textField id="addressField" property="address"/>
+            <textField id="numberPhoneField" property="numberPhone"/>
+        </formLayout>
+        <h4 text="msg://com.company.managerstuder.entity/Studer.enrollments"/>
+        <hbox id="enrollmentsButtonsPanel" classNames="buttons-panel">
+            <button action="enrollmentsDataGrid.createAction"/>
+            <button action="enrollmentsDataGrid.editAction"/>
+            <button action="enrollmentsDataGrid.removeAction"/>
+        </hbox>
+        <dataGrid id="enrollmentsDataGrid" dataContainer="enrollmentsDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="createAction" type="list_create">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="editAction" type="list_edit">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="removeAction" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="courses.code"/>
+                <column property="courses.name"/>
+                <column property="point"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

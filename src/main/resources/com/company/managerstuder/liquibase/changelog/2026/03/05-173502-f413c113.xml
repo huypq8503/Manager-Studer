@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="managerStuder">
+        <createTable tableName="ENROLLMENT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ENROLLMENT"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="POINT" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COURSES_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STUDERS_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="managerStuder">
+        <createIndex indexName="IDX_ENROLLMENT_COURSES" tableName="ENROLLMENT">
+            <column name="COURSES_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="COURSES_ID" baseTableName="ENROLLMENT"
+                                 constraintName="FK_ENROLLMENT_ON_COURSES" referencedColumnNames="ID"
+                                 referencedTableName="COURSE"/>
+    </changeSet>
+    <changeSet id="3" author="managerStuder">
+        <createIndex indexName="IDX_ENROLLMENT_STUDERS" tableName="ENROLLMENT">
+            <column name="STUDERS_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="STUDERS_ID" baseTableName="ENROLLMENT"
+                                 constraintName="FK_ENROLLMENT_ON_STUDERS" referencedColumnNames="ID"
+                                 referencedTableName="STUDER"/>
+    </changeSet>
+</databaseChangeLog>
